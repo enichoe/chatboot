@@ -1,0 +1,912 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Estudio Jurídico - Asesoría Legal</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600;700&family=DM+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg-primary: #0a0a0f;
+      --bg-secondary: #12121a;
+      --bg-card: #1a1a24;
+      --fg-primary: #f5f5f5;
+      --fg-muted: #8a8a9a;
+      --accent-gold: #c9a227;
+      --accent-gold-light: #e8c547;
+      --accent-gold-dark: #9a7b1c;
+      --border-color: #2a2a3a;
+      --bot-bubble: #1e1e2a;
+      --user-bubble: #2a2518;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg-primary);
+      color: var(--fg-primary);
+      min-height: 100vh;
+      overflow: hidden;
+    }
+
+    .font-display {
+      font-family: 'Cormorant Garamond', serif;
+    }
+
+    /* Animated Background */
+    .bg-pattern {
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      overflow: hidden;
+    }
+
+    .gradient-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(80px);
+      opacity: 0.4;
+      animation: float 20s ease-in-out infinite;
+    }
+
+    .orb-1 {
+      width: 400px;
+      height: 400px;
+      background: radial-gradient(circle, var(--accent-gold-dark) 0%, transparent 70%);
+      top: -100px;
+      right: -100px;
+      animation-delay: 0s;
+    }
+
+    .orb-2 {
+      width: 300px;
+      height: 300px;
+      background: radial-gradient(circle, #1a3a5c 0%, transparent 70%);
+      bottom: -50px;
+      left: -50px;
+      animation-delay: -7s;
+    }
+
+    .orb-3 {
+      width: 200px;
+      height: 200px;
+      background: radial-gradient(circle, var(--accent-gold-dark) 0%, transparent 70%);
+      top: 50%;
+      left: 30%;
+      animation-delay: -14s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translate(0, 0) scale(1); }
+      25% { transform: translate(30px, -30px) scale(1.1); }
+      50% { transform: translate(-20px, 20px) scale(0.95); }
+      75% { transform: translate(20px, 30px) scale(1.05); }
+    }
+
+    /* Grid Pattern Overlay */
+    .grid-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1;
+      background-image: 
+        linear-gradient(rgba(201, 162, 39, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(201, 162, 39, 0.03) 1px, transparent 1px);
+      background-size: 50px 50px;
+      pointer-events: none;
+    }
+
+    /* Chat Container */
+    .chat-container {
+      position: relative;
+      z-index: 10;
+      max-width: 480px;
+      width: 100%;
+      height: 100vh;
+      margin: 0 auto;
+      display: flex;
+      flex-direction: column;
+      background: linear-gradient(180deg, var(--bg-secondary) 0%, var(--bg-primary) 100%);
+    }
+
+    /* Header */
+    .chat-header {
+      padding: 1.5rem;
+      background: linear-gradient(180deg, var(--bg-card) 0%, transparent 100%);
+      border-bottom: 1px solid var(--border-color);
+      flex-shrink: 0;
+    }
+
+    .logo-mark {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-dark) 100%);
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 4px 20px rgba(201, 162, 39, 0.3);
+    }
+
+    .status-indicator {
+      width: 10px;
+      height: 10px;
+      background: #22c55e;
+      border-radius: 50%;
+      animation: pulse-status 2s ease-in-out infinite;
+    }
+
+    @keyframes pulse-status {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.2); }
+    }
+
+    /* Messages Area */
+    .messages-area {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      scroll-behavior: smooth;
+    }
+
+    .messages-area::-webkit-scrollbar {
+      width: 4px;
+    }
+
+    .messages-area::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    .messages-area::-webkit-scrollbar-thumb {
+      background: var(--border-color);
+      border-radius: 2px;
+    }
+
+    /* Message Bubbles */
+    .message {
+      max-width: 85%;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: messageIn 0.4s ease-out forwards;
+    }
+
+    .message-bot {
+      align-self: flex-start;
+    }
+
+    .message-user {
+      align-self: flex-end;
+    }
+
+    @keyframes messageIn {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .bubble-bot {
+      background: var(--bot-bubble);
+      border: 1px solid var(--border-color);
+      border-radius: 4px 16px 16px 16px;
+      padding: 1rem 1.25rem;
+      position: relative;
+    }
+
+    .bubble-user {
+      background: linear-gradient(135deg, var(--accent-gold-dark) 0%, var(--accent-gold) 100%);
+      color: var(--bg-primary);
+      border-radius: 16px 4px 16px 16px;
+      padding: 0.875rem 1.25rem;
+      font-weight: 500;
+    }
+
+    /* Typing Indicator */
+    .typing-indicator {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      padding: 1rem 1.25rem;
+      background: var(--bot-bubble);
+      border: 1px solid var(--border-color);
+      border-radius: 4px 16px 16px 16px;
+      width: fit-content;
+    }
+
+    .typing-dot {
+      width: 8px;
+      height: 8px;
+      background: var(--accent-gold);
+      border-radius: 50%;
+      animation: typingBounce 1.4s ease-in-out infinite;
+    }
+
+    .typing-dot:nth-child(2) { animation-delay: 0.2s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.4s; }
+
+    @keyframes typingBounce {
+      0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+      30% { transform: translateY(-8px); opacity: 1; }
+    }
+
+    /* Quick Reply Buttons */
+    .quick-replies {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .quick-btn {
+      background: transparent;
+      border: 1px solid var(--accent-gold);
+      color: var(--accent-gold);
+      padding: 0.625rem 1rem;
+      border-radius: 8px;
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+
+    .quick-btn:hover {
+      background: var(--accent-gold);
+      color: var(--bg-primary);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(201, 162, 39, 0.3);
+    }
+
+    .quick-btn:active {
+      transform: translateY(0);
+    }
+
+    /* Input Area */
+    .input-area {
+      padding: 1rem 1.5rem 1.5rem;
+      background: linear-gradient(0deg, var(--bg-card) 0%, transparent 100%);
+      border-top: 1px solid var(--border-color);
+      flex-shrink: 0;
+    }
+
+    .input-wrapper {
+      display: flex;
+      gap: 0.75rem;
+      align-items: flex-end;
+    }
+
+    .input-field {
+      flex: 1;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 0.875rem 1rem;
+      color: var(--fg-primary);
+      font-size: 0.9375rem;
+      resize: none;
+      min-height: 48px;
+      max-height: 120px;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .input-field:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+      box-shadow: 0 0 0 3px rgba(201, 162, 39, 0.15);
+    }
+
+    .input-field::placeholder {
+      color: var(--fg-muted);
+    }
+
+    .send-btn {
+      width: 48px;
+      height: 48px;
+      background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-dark) 100%);
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+    }
+
+    .send-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 4px 16px rgba(201, 162, 39, 0.4);
+    }
+
+    .send-btn:active {
+      transform: scale(0.95);
+    }
+
+    .send-btn:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .send-btn svg {
+      color: var(--bg-primary);
+    }
+
+    /* Data Form */
+    .data-form {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1rem;
+      margin-top: 0.75rem;
+    }
+
+    .form-title {
+      font-size: 0.875rem;
+      color: var(--accent-gold);
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+
+    .form-input {
+      width: 100%;
+      background: var(--bg-secondary);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 0.75rem 1rem;
+      color: var(--fg-primary);
+      font-size: 0.875rem;
+      margin-bottom: 0.5rem;
+      transition: border-color 0.2s ease;
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--accent-gold);
+    }
+
+    .form-input::placeholder {
+      color: var(--fg-muted);
+    }
+
+    .submit-form-btn {
+      width: 100%;
+      background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-dark) 100%);
+      border: none;
+      border-radius: 8px;
+      padding: 0.75rem;
+      color: var(--bg-primary);
+      font-weight: 600;
+      font-size: 0.875rem;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      transition: all 0.2s ease;
+    }
+
+    .submit-form-btn:hover {
+      transform: translateY(-1px);
+      box-shadow: 0 4px 12px rgba(201, 162, 39, 0.3);
+    }
+
+    /* Progress Indicator */
+    .progress-bar {
+      height: 2px;
+      background: var(--border-color);
+      border-radius: 1px;
+      overflow: hidden;
+      margin-top: 0.75rem;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, var(--accent-gold) 0%, var(--accent-gold-light) 100%);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    /* Success Animation */
+    .success-checkmark {
+      width: 60px;
+      height: 60px;
+      margin: 1rem auto;
+      position: relative;
+    }
+
+    .checkmark-circle {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--accent-gold) 0%, var(--accent-gold-dark) 100%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      animation: scaleIn 0.5s ease-out;
+    }
+
+    @keyframes scaleIn {
+      0% { transform: scale(0); opacity: 0; }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); opacity: 1; }
+    }
+
+    .checkmark-svg {
+      width: 30px;
+      height: 30px;
+      stroke: var(--bg-primary);
+      stroke-width: 3;
+      fill: none;
+      stroke-dasharray: 30;
+      stroke-dashoffset: 30;
+      animation: drawCheck 0.5s ease-out 0.3s forwards;
+    }
+
+    @keyframes drawCheck {
+      to { stroke-dashoffset: 0; }
+    }
+
+    /* Reduced Motion */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+      }
+    }
+
+    /* Mobile Adjustments */
+    @media (max-width: 480px) {
+      .chat-container {
+        max-width: 100%;
+      }
+
+      .message {
+        max-width: 90%;
+      }
+
+      .quick-btn {
+        padding: 0.5rem 0.75rem;
+        font-size: 0.8125rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Animated Background -->
+  <div class="bg-pattern">
+    <div class="gradient-orb orb-1"></div>
+    <div class="gradient-orb orb-2"></div>
+    <div class="gradient-orb orb-3"></div>
+  </div>
+  <div class="grid-overlay"></div>
+
+  <!-- Chat Interface -->
+  <div class="chat-container">
+    <!-- Header -->
+    <header class="chat-header">
+      <div class="flex items-center gap-4">
+        <div class="logo-mark">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="#0a0a0f" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+            <path d="M2 17l10 5 10-5"/>
+            <path d="M2 12l10 5 10-5"/>
+          </svg>
+        </div>
+        <div class="flex-1">
+          <h1 class="font-display text-xl font-semibold text-white">Estudio Juridico</h1>
+          <div class="flex items-center gap-2 mt-1">
+            <div class="status-indicator"></div>
+            <span class="text-xs text-[var(--fg-muted)]">Abogados disponibles</span>
+          </div>
+        </div>
+      </div>
+      <div class="progress-bar">
+        <div class="progress-fill" id="progressFill"></div>
+      </div>
+    </header>
+
+    <!-- Messages -->
+    <div class="messages-area" id="messagesArea">
+      <!-- Messages will be inserted here -->
+    </div>
+
+    <!-- Input Area -->
+    <div class="input-area" id="inputArea">
+      <div class="input-wrapper">
+        <textarea 
+          class="input-field" 
+          id="userInput" 
+          placeholder="Escribe tu mensaje..." 
+          rows="1"
+          aria-label="Mensaje del usuario"
+        ></textarea>
+        <button class="send-btn" id="sendBtn" aria-label="Enviar mensaje">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="22" y1="2" x2="11" y2="13"></line>
+            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Chat State Machine
+    const ChatState = {
+      GREETING: 'greeting',
+      CASE_TYPE: 'case_type',
+      CASE_DETAILS: 'case_details',
+      RESPONSE_AUTHORITY: 'response_authority',
+      URGENCY: 'urgency',
+      SCHEDULING: 'scheduling',
+      DATA_CAPTURE: 'data_capture',
+      CONFIRMATION: 'confirmation',
+      COMPLETE: 'complete'
+    };
+
+    // Conversation data
+    const conversationFlow = {
+      [ChatState.GREETING]: {
+        message: 'Hola, bienvenido a nuestro estudio juridico. Estamos aqui para ayudarte con tu caso de forma rapida y segura. En que podemos asesorarte hoy?',
+        quickReplies: ['Tengo una consulta legal', 'Quiero agendar una cita', 'Necesito un abogado urgente']
+      },
+      [ChatState.CASE_TYPE]: {
+        message: 'Entiendo. Para poder orientarte mejor, tu consulta esta relacionada con algun area legal en especifico?',
+        quickReplies: ['Derecho Laboral', 'Derecho de Familia', 'Derecho Civil', 'Derecho Penal', 'Otra consulta']
+      },
+      [ChatState.CASE_DETAILS]: {
+        message: 'Gracias por compartir esa informacion. Podrias contarme brevemente tu situacion para poder orientarte de forma mas personalizada?',
+        quickReplies: null
+      },
+      [ChatState.RESPONSE_AUTHORITY]: {
+        message: 'Entiendo tu situacion. Nuestro equipo ha ayudado a muchos clientes en casos similares, logrando soluciones rapidas y efectivas. Contamos con mas de 15 anos de experiencia protegiendo los derechos de nuestros clientes.',
+        quickReplies: null
+      },
+      [ChatState.URGENCY]: {
+        message: 'En estos casos es importante actuar lo antes posible para proteger tus derechos. Mientras antes tomemos accion, mayores seran las posibilidades de obtener un resultado favorable.',
+        quickReplies: ['Si, quiero agendar', 'Necesito mas informacion']
+      },
+      [ChatState.SCHEDULING]: {
+        message: 'Excelente decision. Podemos agendar una asesoria personalizada contigo para analizar tu caso a detalle sin costo inicial.',
+        quickReplies: ['Perfecto, agendemos', 'Tengo dudas']
+      },
+      [ChatState.DATA_CAPTURE]: {
+        message: 'Para agendar tu asesoria, por favor completa los siguientes datos:',
+        quickReplies: null,
+        showForm: true
+      },
+      [ChatState.CONFIRMATION]: {
+        message: 'Hemos recibido tu informacion correctamente.',
+        quickReplies: null,
+        showSuccess: true
+      },
+      [ChatState.COMPLETE]: {
+        message: 'En breve uno de nuestros abogados se comunicara contigo para confirmar tu cita. Será un gusto ayudarte.',
+        quickReplies: null
+      }
+    };
+
+    // State management
+    let currentState = ChatState.GREETING;
+    let collectedData = {
+      caseType: '',
+      caseDetails: '',
+      fullName: '',
+      phone: '',
+      availability: ''
+    };
+    let progress = 0;
+
+    // DOM Elements - Initialize after DOM is ready
+    let messagesArea = null;
+    let userInput = null;
+    let sendBtn = null;
+    let inputArea = null;
+    let progressFill = null;
+
+    // Initialize DOM elements
+    function initDOMElements() {
+      messagesArea = document.getElementById('messagesArea');
+      userInput = document.getElementById('userInput');
+      sendBtn = document.getElementById('sendBtn');
+      inputArea = document.getElementById('inputArea');
+      progressFill = document.getElementById('progressFill');
+    }
+
+    // Utility: Create typing indicator
+    function createTypingIndicator() {
+      const div = document.createElement('div');
+      div.className = 'message message-bot';
+      div.id = 'typingIndicator';
+      div.innerHTML = `
+        <div class="typing-indicator">
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+          <div class="typing-dot"></div>
+        </div>
+      `;
+      return div;
+    }
+
+    // Utility: Create message bubble
+    function createMessage(text, isBot = true, delay = 0) {
+      const div = document.createElement('div');
+      div.className = `message ${isBot ? 'message-bot' : 'message-user'}`;
+      div.style.animationDelay = `${delay}ms`;
+      div.innerHTML = `
+        <div class="${isBot ? 'bubble-bot' : 'bubble-user'}">
+          ${text}
+        </div>
+      `;
+      return div;
+    }
+
+    // Utility: Create quick replies
+    function createQuickReplies(replies) {
+      const div = document.createElement('div');
+      div.className = 'quick-replies';
+      div.id = 'quickReplies';
+      replies.forEach(reply => {
+        const btn = document.createElement('button');
+        btn.className = 'quick-btn';
+        btn.textContent = reply;
+        btn.addEventListener('click', () => handleQuickReply(reply));
+        div.appendChild(btn);
+      });
+      return div;
+    }
+
+    // Utility: Create data form
+    function createDataForm() {
+      const div = document.createElement('div');
+      div.className = 'data-form';
+      div.id = 'dataForm';
+      div.innerHTML = `
+        <div class="form-title">Datos de contacto</div>
+        <input type="text" class="form-input" id="formName" placeholder="Nombre completo" required>
+        <input type="tel" class="form-input" id="formPhone" placeholder="Numero de WhatsApp" required>
+        <input type="text" class="form-input" id="formAvailability" placeholder="Disponibilidad (dia y hora)" required>
+        <button class="submit-form-btn" id="submitForm">Confirmar cita</button>
+      `;
+      return div;
+    }
+
+    // Utility: Create success animation
+    function createSuccessAnimation() {
+      const div = document.createElement('div');
+      div.className = 'success-checkmark';
+      div.innerHTML = `
+        <div class="checkmark-circle">
+          <svg class="checkmark-svg" viewBox="0 0 24 24">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </div>
+      `;
+      return div;
+    }
+
+    // Update progress bar
+    function updateProgress() {
+      const progressSteps = 8;
+      progress = Math.min(progress + 1, progressSteps);
+      const percentage = (progress / progressSteps) * 100;
+      if (progressFill) {
+        progressFill.style.width = `${percentage}%`;
+      }
+    }
+
+    // Scroll to bottom
+    function scrollToBottom() {
+      if (messagesArea) {
+        messagesArea.scrollTop = messagesArea.scrollHeight;
+      }
+    }
+
+    // Add bot message with typing effect
+    function addBotMessage(text, quickReplies = null, showForm = false, showSuccess = false) {
+      if (!messagesArea) return;
+      
+      // Remove existing quick replies
+      const existingQuickReplies = document.getElementById('quickReplies');
+      if (existingQuickReplies) existingQuickReplies.remove();
+
+      // Show typing indicator
+      const typing = createTypingIndicator();
+      messagesArea.appendChild(typing);
+      scrollToBottom();
+
+      // Replace typing with actual message
+      setTimeout(() => {
+        typing.remove();
+        
+        const msgDiv = createMessage(text);
+        messagesArea.appendChild(msgDiv);
+
+        if (quickReplies) {
+          const qrDiv = createQuickReplies(quickReplies);
+          msgDiv.querySelector('.bubble-bot').appendChild(qrDiv);
+        }
+
+        if (showForm) {
+          const formDiv = createDataForm();
+          msgDiv.querySelector('.bubble-bot').appendChild(formDiv);
+          
+          document.getElementById('submitForm').addEventListener('click', handleFormSubmit);
+        }
+
+        if (showSuccess) {
+          const successDiv = createSuccessAnimation();
+          messagesArea.appendChild(successDiv);
+        }
+
+        scrollToBottom();
+        updateProgress();
+      }, 1200);
+    }
+
+    // Add user message
+    function addUserMessage(text) {
+      if (!messagesArea) return;
+      
+      const msgDiv = createMessage(text, false);
+      messagesArea.appendChild(msgDiv);
+      scrollToBottom();
+      updateProgress();
+    }
+
+    // Handle quick reply click
+    function handleQuickReply(reply) {
+      addUserMessage(reply);
+
+      // Remove quick replies
+      const qr = document.getElementById('quickReplies');
+      if (qr) qr.remove();
+
+      processUserInput(reply);
+    }
+
+    // Handle form submission
+    function handleFormSubmit() {
+      const name = document.getElementById('formName').value.trim();
+      const phone = document.getElementById('formPhone').value.trim();
+      const availability = document.getElementById('formAvailability').value.trim();
+
+      if (!name || !phone || !availability) {
+        alert('Por favor completa todos los campos');
+        return;
+      }
+
+      collectedData.fullName = name;
+      collectedData.phone = phone;
+      collectedData.availability = availability;
+
+      // Remove form
+      const form = document.getElementById('dataForm');
+      if (form) form.remove();
+
+      addUserMessage(`${name} - ${phone} - ${availability}`);
+
+      currentState = ChatState.CONFIRMATION;
+      const flow = conversationFlow[currentState];
+      addBotMessage(flow.message, flow.quickReplies, flow.showForm, flow.showSuccess);
+
+      setTimeout(() => {
+        currentState = ChatState.COMPLETE;
+        const finalFlow = conversationFlow[currentState];
+        addBotMessage(finalFlow.message);
+      }, 2000);
+    }
+
+    // Process user input based on state
+    function processUserInput(input) {
+      switch (currentState) {
+        case ChatState.GREETING:
+          currentState = ChatState.CASE_TYPE;
+          break;
+
+        case ChatState.CASE_TYPE:
+          collectedData.caseType = input;
+          currentState = ChatState.CASE_DETAILS;
+          break;
+
+        case ChatState.CASE_DETAILS:
+          collectedData.caseDetails = input;
+          currentState = ChatState.RESPONSE_AUTHORITY;
+          break;
+
+        case ChatState.RESPONSE_AUTHORITY:
+          currentState = ChatState.URGENCY;
+          break;
+
+        case ChatState.URGENCY:
+          if (input.includes('agendar') || input.includes('Si')) {
+            currentState = ChatState.SCHEDULING;
+          } else {
+            addBotMessage('Entiendo. Nuestro equipo esta disponible para resolver todas tus dudas. Te gustaria agendar una cita para una consulta mas personalizada?', ['Si, agendar cita', 'Llamar despues']);
+            return;
+          }
+          break;
+
+        case ChatState.SCHEDULING:
+          if (input.includes('Perfecto') || input.includes('agendemos') || input.includes('Si')) {
+            currentState = ChatState.DATA_CAPTURE;
+          } else {
+            addBotMessage('Claro, ¿que duda tienes? Estoy aqui para ayudarte. Nuestra primera consulta es sin compromiso y te permitira conocer las opciones disponibles para tu caso.', ['Entendido, agendemos', 'Gracias, despues vuelvo']);
+            return;
+          }
+          break;
+
+        default:
+          return;
+      }
+
+      const flow = conversationFlow[currentState];
+      if (flow) {
+        addBotMessage(flow.message, flow.quickReplies, flow.showForm, flow.showSuccess);
+      }
+    }
+
+    // Handle send button click
+    function handleSend() {
+      if (!userInput) return;
+      
+      const text = userInput.value.trim();
+      if (!text) return;
+
+      addUserMessage(text);
+      userInput.value = '';
+      userInput.style.height = 'auto';
+
+      processUserInput(text);
+    }
+
+    // Auto-resize textarea
+    function autoResize() {
+      if (!userInput) return;
+      userInput.style.height = 'auto';
+      userInput.style.height = Math.min(userInput.scrollHeight, 120) + 'px';
+    }
+
+    // Initialize chat
+    function initChat() {
+      initDOMElements();
+      
+      if (!messagesArea || !userInput || !sendBtn || !progressFill) {
+        console.error('Required DOM elements not found');
+        return;
+      }
+
+      // Event listeners
+      sendBtn.addEventListener('click', handleSend);
+      
+      userInput.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && !e.shiftKey) {
+          e.preventDefault();
+          handleSend();
+        }
+      });
+
+      userInput.addEventListener('input', autoResize);
+
+      // Start conversation
+      setTimeout(() => {
+        const flow = conversationFlow[ChatState.GREETING];
+        addBotMessage(flow.message, flow.quickReplies);
+      }, 500);
+    }
+
+    // Wait for DOM to be ready
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', initChat);
+    } else {
+      initChat();
+    }
+  </script>
+</body>
+</html>
