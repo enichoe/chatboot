@@ -2,401 +2,326 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Estudio Jurídico - Asesoría Legal Profesional</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Estudio Jurídico</title>
   <script src="https://cdn.tailwindcss.com"></script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Source+Sans+3:wght@400;500;600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Crimson+Pro:wght@500;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg-primary: #080810;
-      --bg-secondary: #0e0e18;
-      --bg-card: #141420;
-      --bg-elevated: #1a1a28;
-      --fg-primary: #e8e8ec;
-      --fg-secondary: #b0b0bc;
-      --fg-muted: #6a6a7a;
-      --accent-primary: #8a9cc4;
-      --accent-secondary: #6a7a9c;
-      --accent-highlight: #a8b8d8;
-      --border-subtle: #252535;
-      --border-active: #3a3a50;
-      --bot-bubble: #141420;
-      --user-bubble: #1e2540;
-      --success: #5a9c6a;
-      --warning: #c4a05a;
+      --bg: #0c0c12;
+      --bg-elevated: #14141c;
+      --bg-input: #1a1a24;
+      --fg: #e4e4ec;
+      --fg-muted: #7c7c8c;
+      --accent: #7890b8;
+      --accent-dim: #5c6c88;
+      --border: #2a2a38;
+      --success: #58a868;
+      --priority: #b89050;
     }
 
     * {
       box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    html, body {
+      margin: 0;
+      padding: 0;
+      height: 100%;
+      overflow: hidden;
+      overscroll-behavior: none;
     }
 
     body {
-      font-family: 'Source Sans 3', sans-serif;
-      background: var(--bg-primary);
-      color: var(--fg-primary);
-      min-height: 100vh;
-      overflow: hidden;
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
     }
 
-    .font-display {
-      font-family: 'Playfair Display', serif;
+    .font-serif {
+      font-family: 'Crimson Pro', Georgia, serif;
     }
 
-    /* Subtle Background */
-    .bg-subtle {
+    /* Mobile-first container */
+    .app-container {
       position: fixed;
       inset: 0;
-      z-index: 0;
-      background: 
-        radial-gradient(ellipse 80% 50% at 50% -20%, rgba(138, 156, 196, 0.08) 0%, transparent 50%),
-        radial-gradient(ellipse 60% 40% at 100% 100%, rgba(106, 122, 156, 0.05) 0%, transparent 50%),
-        var(--bg-primary);
-    }
-
-    .grain-overlay {
-      position: fixed;
-      inset: 0;
-      z-index: 1;
-      opacity: 0.03;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-      pointer-events: none;
-    }
-
-    /* Divider Lines */
-    .line-accent {
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--border-subtle) 20%, var(--accent-secondary) 50%, var(--border-subtle) 80%, transparent);
-    }
-
-    /* Chat Container */
-    .chat-container {
-      position: relative;
-      z-index: 10;
-      max-width: 520px;
-      width: 100%;
-      height: 100vh;
-      margin: 0 auto;
       display: flex;
       flex-direction: column;
-      background: var(--bg-secondary);
-      border-left: 1px solid var(--border-subtle);
-      border-right: 1px solid var(--border-subtle);
+      background: var(--bg);
+      max-width: 100%;
+      height: 100%;
+      height: 100dvh;
     }
 
-    /* Header */
-    .chat-header {
-      padding: 1.25rem 1.5rem;
-      background: var(--bg-card);
-      border-bottom: 1px solid var(--border-subtle);
+    @media (min-width: 500px) {
+      .app-container {
+        max-width: 440px;
+        margin: 0 auto;
+        border-left: 1px solid var(--border);
+        border-right: 1px solid var(--border);
+      }
+    }
+
+    /* Compact Header */
+    .header {
       flex-shrink: 0;
+      padding: 0.75rem 1rem;
+      background: var(--bg-elevated);
+      border-bottom: 1px solid var(--border);
     }
 
-    .logo-container {
+    .header-top {
       display: flex;
       align-items: center;
-      gap: 1rem;
+      gap: 0.75rem;
     }
 
-    .logo-emblem {
-      width: 44px;
-      height: 44px;
-      background: linear-gradient(145deg, var(--bg-elevated) 0%, var(--bg-card) 100%);
-      border: 1px solid var(--border-active);
-      border-radius: 4px;
+    .logo-box {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--accent-dim), var(--accent));
+      border-radius: 6px;
       display: flex;
       align-items: center;
       justify-content: center;
-      position: relative;
+      flex-shrink: 0;
     }
 
-    .logo-emblem::before {
-      content: '';
-      position: absolute;
-      inset: -1px;
-      border-radius: 4px;
-      background: linear-gradient(145deg, var(--accent-primary) 0%, transparent 50%);
-      opacity: 0.2;
+    .logo-box svg {
+      width: 18px;
+      height: 18px;
+      stroke: var(--bg);
     }
 
-    .status-badge {
-      display: inline-flex;
+    .header-title {
+      font-size: 1rem;
+      font-weight: 600;
+      letter-spacing: 0.01em;
+    }
+
+    .header-sub {
+      font-size: 0.6875rem;
+      color: var(--fg-muted);
+      display: flex;
       align-items: center;
       gap: 0.375rem;
-      padding: 0.25rem 0.625rem;
-      background: rgba(90, 156, 106, 0.1);
-      border: 1px solid rgba(90, 156, 106, 0.2);
-      border-radius: 3px;
-      font-size: 0.6875rem;
-      font-weight: 600;
-      letter-spacing: 0.05em;
-      text-transform: uppercase;
-      color: var(--success);
+      margin-top: 0.125rem;
     }
 
     .status-dot {
-      width: 6px;
-      height: 6px;
+      width: 5px;
+      height: 5px;
       background: var(--success);
       border-radius: 50%;
-      animation: pulse-dot 2.5s ease-in-out infinite;
+      animation: pulse 2s infinite;
     }
 
-    @keyframes pulse-dot {
+    @keyframes pulse {
       0%, 100% { opacity: 1; }
       50% { opacity: 0.4; }
     }
 
-    /* Progress Tracker */
-    .progress-tracker {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
-
-    .progress-step {
-      flex: 1;
+    /* Progress bar */
+    .progress-track {
       height: 2px;
-      background: var(--border-subtle);
+      background: var(--border);
+      margin-top: 0.625rem;
       border-radius: 1px;
-      transition: background 0.5s ease;
-    }
-
-    .progress-step.active {
-      background: var(--accent-secondary);
-    }
-
-    .progress-step.completed {
-      background: var(--accent-primary);
-    }
-
-    /* Messages Area */
-    .messages-area {
-      flex: 1;
-      overflow-y: auto;
-      padding: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      gap: 1.25rem;
-      scroll-behavior: smooth;
-    }
-
-    .messages-area::-webkit-scrollbar {
-      width: 3px;
-    }
-
-    .messages-area::-webkit-scrollbar-track {
-      background: transparent;
-    }
-
-    .messages-area::-webkit-scrollbar-thumb {
-      background: var(--border-subtle);
-      border-radius: 1px;
-    }
-
-    /* Message Styles */
-    .message {
-      max-width: 88%;
-      opacity: 0;
-      transform: translateY(16px);
-      animation: messageReveal 0.5s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-    }
-
-    .message-bot {
-      align-self: flex-start;
-    }
-
-    .message-user {
-      align-self: flex-end;
-    }
-
-    @keyframes messageReveal {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    .bubble-bot {
-      background: var(--bot-bubble);
-      border: 1px solid var(--border-subtle);
-      border-radius: 2px 12px 12px 12px;
-      padding: 1rem 1.25rem;
-      position: relative;
-    }
-
-    .bubble-bot::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 2px;
-      height: 100%;
-      background: linear-gradient(180deg, var(--accent-primary) 0%, transparent 100%);
-      border-radius: 2px 0 0 2px;
-    }
-
-    .bubble-user {
-      background: var(--user-bubble);
-      border: 1px solid var(--border-active);
-      border-radius: 12px 2px 12px 12px;
-      padding: 0.875rem 1.25rem;
-    }
-
-    .message-label {
-      font-size: 0.6875rem;
-      font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent-secondary);
-      margin-bottom: 0.5rem;
-    }
-
-    /* Typing Indicator */
-    .typing-block {
-      background: var(--bot-bubble);
-      border: 1px solid var(--border-subtle);
-      border-radius: 2px 12px 12px 12px;
-      padding: 1rem 1.25rem;
-      position: relative;
-    }
-
-    .typing-block::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 2px;
-      height: 100%;
-      background: linear-gradient(180deg, var(--accent-primary) 0%, transparent 100%);
-      border-radius: 2px 0 0 2px;
-    }
-
-    .typing-text {
-      font-size: 0.8125rem;
-      color: var(--fg-muted);
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    .typing-cursor {
-      width: 2px;
-      height: 14px;
-      background: var(--accent-primary);
-      animation: cursorBlink 1s ease-in-out infinite;
-    }
-
-    @keyframes cursorBlink {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0; }
-    }
-
-    /* Quick Options */
-    .option-group {
-      display: flex;
-      flex-direction: column;
-      gap: 0.5rem;
-      margin-top: 1rem;
-    }
-
-    .option-btn {
-      background: transparent;
-      border: 1px solid var(--border-subtle);
-      color: var(--fg-primary);
-      padding: 0.75rem 1rem;
-      border-radius: 4px;
-      font-size: 0.875rem;
-      font-weight: 500;
-      text-align: left;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      position: relative;
       overflow: hidden;
     }
 
-    .option-btn::before {
-      content: '';
-      position: absolute;
-      left: 0;
-      top: 0;
+    .progress-bar {
       height: 100%;
-      width: 0;
-      background: linear-gradient(90deg, rgba(138, 156, 196, 0.1) 0%, transparent 100%);
-      transition: width 0.3s ease;
+      background: var(--accent);
+      width: 0%;
+      transition: width 0.4s ease;
     }
 
-    .option-btn:hover {
-      border-color: var(--accent-secondary);
-      color: var(--fg-primary);
+    /* Messages - flexible area */
+    .messages-container {
+      flex: 1;
+      overflow-y: auto;
+      overflow-x: hidden;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.875rem;
+      -webkit-overflow-scrolling: touch;
     }
 
-    .option-btn:hover::before {
+    .message {
+      max-width: 92%;
+      opacity: 0;
+      transform: translateY(12px);
+      animation: msgIn 0.35s ease forwards;
+    }
+
+    @keyframes msgIn {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .msg-bot {
+      align-self: flex-start;
+    }
+
+    .msg-user {
+      align-self: flex-end;
+    }
+
+    .bubble-bot {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 4px 14px 14px 14px;
+      padding: 0.75rem 0.875rem;
+      font-size: 0.875rem;
+      line-height: 1.5;
+    }
+
+    .bubble-user {
+      background: var(--accent-dim);
+      border-radius: 14px 4px 14px 14px;
+      padding: 0.625rem 0.875rem;
+      font-size: 0.875rem;
+      line-height: 1.45;
+    }
+
+    .msg-label {
+      font-size: 0.625rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--accent-dim);
+      margin-bottom: 0.375rem;
+    }
+
+    /* Typing indicator */
+    .typing-indicator {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border);
+      border-radius: 4px 14px 14px 14px;
+      padding: 0.75rem 0.875rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .typing-dots {
+      display: flex;
+      gap: 3px;
+    }
+
+    .typing-dot {
+      width: 5px;
+      height: 5px;
+      background: var(--accent);
+      border-radius: 50%;
+      animation: bounce 1.2s infinite;
+    }
+
+    .typing-dot:nth-child(2) { animation-delay: 0.15s; }
+    .typing-dot:nth-child(3) { animation-delay: 0.3s; }
+
+    @keyframes bounce {
+      0%, 60%, 100% { transform: translateY(0); }
+      30% { transform: translateY(-4px); }
+    }
+
+    .typing-text {
+      font-size: 0.75rem;
+      color: var(--fg-muted);
+    }
+
+    /* Options */
+    .options-wrap {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+      margin-top: 0.75rem;
+    }
+
+    .opt-btn {
       width: 100%;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--fg);
+      padding: 0.625rem 0.75rem;
+      border-radius: 6px;
+      font-size: 0.8125rem;
+      font-weight: 500;
+      text-align: left;
+      cursor: pointer;
+      transition: border-color 0.2s, background 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
     }
 
-    .option-btn:active {
-      transform: scale(0.98);
+    .opt-btn:active {
+      background: var(--bg-elevated);
+      border-color: var(--accent);
     }
 
-    .option-btn .option-icon {
-      display: inline-block;
-      width: 6px;
-      height: 6px;
-      background: var(--accent-secondary);
+    .opt-btn.priority {
+      border-color: var(--priority);
+      background: rgba(184, 144, 80, 0.08);
+    }
+
+    .opt-dot {
+      width: 5px;
+      height: 5px;
+      background: var(--accent-dim);
       border-radius: 1px;
-      margin-right: 0.75rem;
-      transition: background 0.2s ease;
-    }
-
-    .option-btn:hover .option-icon {
-      background: var(--accent-primary);
-    }
-
-    /* Priority Option */
-    .option-priority {
-      border-color: var(--warning);
-      background: rgba(196, 160, 90, 0.05);
-    }
-
-    .option-priority .option-icon {
-      background: var(--warning);
-    }
-
-    /* Input Area */
-    .input-area {
-      padding: 1rem 1.5rem 1.25rem;
-      background: var(--bg-card);
-      border-top: 1px solid var(--border-subtle);
       flex-shrink: 0;
     }
 
-    .input-wrapper {
+    .opt-btn.priority .opt-dot {
+      background: var(--priority);
+    }
+
+    /* Input area - fixed at bottom */
+    .input-area {
+      flex-shrink: 0;
+      padding: 0.75rem 1rem;
+      padding-bottom: calc(0.75rem + env(safe-area-inset-bottom, 0px));
+      background: var(--bg-elevated);
+      border-top: 1px solid var(--border);
+    }
+
+    .input-row {
       display: flex;
-      gap: 0.625rem;
+      gap: 0.5rem;
       align-items: flex-end;
     }
 
-    .input-field {
+    .input-box {
       flex: 1;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-subtle);
-      border-radius: 4px;
-      padding: 0.75rem 1rem;
-      color: var(--fg-primary);
-      font-size: 0.9375rem;
+      position: relative;
+    }
+
+    .input-field {
+      width: 100%;
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.625rem 0.875rem;
+      color: var(--fg);
+      font-size: 1rem;
       font-family: inherit;
+      line-height: 1.4;
       resize: none;
-      min-height: 44px;
-      max-height: 100px;
-      transition: border-color 0.25s ease;
+      min-height: 40px;
+      max-height: 80px;
+      outline: none;
+      -webkit-appearance: none;
+      appearance: none;
     }
 
     .input-field:focus {
-      outline: none;
-      border-color: var(--accent-secondary);
+      border-color: var(--accent);
     }
 
     .input-field::placeholder {
@@ -404,270 +329,186 @@
     }
 
     .send-btn {
-      width: 44px;
-      height: 44px;
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-subtle);
-      border-radius: 4px;
+      width: 40px;
+      height: 40px;
+      background: var(--accent);
+      border: none;
+      border-radius: 8px;
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: all 0.25s ease;
       flex-shrink: 0;
-    }
-
-    .send-btn:hover {
-      border-color: var(--accent-secondary);
-      background: var(--user-bubble);
+      transition: opacity 0.2s;
     }
 
     .send-btn:active {
-      transform: scale(0.95);
-    }
-
-    .send-btn:disabled {
-      opacity: 0.4;
-      cursor: not-allowed;
+      opacity: 0.8;
     }
 
     .send-btn svg {
-      color: var(--fg-secondary);
-      transition: color 0.2s ease;
+      width: 18px;
+      height: 18px;
+      stroke: var(--bg);
     }
 
-    .send-btn:hover svg {
-      color: var(--accent-primary);
+    /* Form */
+    .form-card {
+      background: var(--bg-input);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.875rem;
+      margin-top: 0.75rem;
     }
 
-    /* Data Form */
-    .data-form {
-      background: var(--bg-elevated);
-      border: 1px solid var(--border-subtle);
-      border-radius: 4px;
-      padding: 1.25rem;
-      margin-top: 1rem;
-    }
-
-    .form-header {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      margin-bottom: 1rem;
-      padding-bottom: 0.75rem;
-      border-bottom: 1px solid var(--border-subtle);
-    }
-
-    .form-title {
-      font-size: 0.75rem;
+    .form-head {
+      font-size: 0.6875rem;
       font-weight: 600;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--accent-primary);
+      color: var(--accent);
+      margin-bottom: 0.625rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
     }
 
-    .form-row {
-      margin-bottom: 0.75rem;
+    .form-field {
+      margin-bottom: 0.5rem;
     }
 
     .form-label {
+      font-size: 0.6875rem;
+      color: var(--fg-muted);
+      margin-bottom: 0.25rem;
       display: block;
-      font-size: 0.75rem;
-      font-weight: 500;
-      color: var(--fg-secondary);
-      margin-bottom: 0.375rem;
     }
 
     .form-input {
       width: 100%;
-      background: var(--bg-secondary);
-      border: 1px solid var(--border-subtle);
-      border-radius: 3px;
-      padding: 0.625rem 0.875rem;
-      color: var(--fg-primary);
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.5rem 0.625rem;
+      color: var(--fg);
       font-size: 0.875rem;
       font-family: inherit;
-      transition: border-color 0.25s ease;
+      outline: none;
+      -webkit-appearance: none;
     }
 
     .form-input:focus {
-      outline: none;
-      border-color: var(--accent-secondary);
+      border-color: var(--accent);
     }
 
     .form-input::placeholder {
       color: var(--fg-muted);
     }
 
-    .submit-btn {
+    .form-submit {
       width: 100%;
-      background: linear-gradient(145deg, var(--accent-secondary) 0%, var(--accent-primary) 100%);
+      background: var(--accent);
       border: none;
-      border-radius: 3px;
-      padding: 0.75rem;
-      color: var(--bg-primary);
+      border-radius: 6px;
+      padding: 0.625rem;
+      color: var(--bg);
       font-weight: 600;
       font-size: 0.875rem;
+      margin-top: 0.375rem;
       cursor: pointer;
-      margin-top: 0.5rem;
-      transition: all 0.25s ease;
     }
 
-    .submit-btn:hover {
-      transform: translateY(-1px);
-      box-shadow: 0 4px 12px rgba(138, 156, 196, 0.2);
+    .form-submit:active {
+      opacity: 0.9;
     }
 
-    .submit-btn:active {
-      transform: translateY(0);
-    }
-
-    /* Confirmation Success */
-    .success-block {
+    /* Success */
+    .success-wrap {
       text-align: center;
-      padding: 1.5rem;
+      padding: 1.25rem 1rem;
     }
 
     .success-icon {
-      width: 56px;
-      height: 56px;
-      margin: 0 auto 1rem;
-      background: rgba(90, 156, 106, 0.1);
-      border: 1px solid rgba(90, 156, 106, 0.2);
+      width: 48px;
+      height: 48px;
+      margin: 0 auto 0.75rem;
+      background: rgba(88, 168, 104, 0.15);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
-      animation: successScale 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+      animation: scaleIn 0.4s ease;
     }
 
-    @keyframes successScale {
-      0% { transform: scale(0); opacity: 0; }
-      50% { transform: scale(1.1); }
-      100% { transform: scale(1); opacity: 1; }
+    @keyframes scaleIn {
+      0% { transform: scale(0); }
+      70% { transform: scale(1.1); }
+      100% { transform: scale(1); }
     }
 
     .success-icon svg {
+      width: 22px;
+      height: 22px;
       stroke: var(--success);
-      stroke-dasharray: 30;
-      stroke-dashoffset: 30;
-      animation: drawIcon 0.5s ease-out 0.3s forwards;
+      stroke-dasharray: 24;
+      stroke-dashoffset: 24;
+      animation: draw 0.4s ease 0.2s forwards;
     }
 
-    @keyframes drawIcon {
+    @keyframes draw {
       to { stroke-dashoffset: 0; }
     }
 
     .success-title {
-      font-size: 1rem;
       font-weight: 600;
-      color: var(--fg-primary);
-      margin-bottom: 0.5rem;
+      font-size: 0.9375rem;
     }
 
-    .success-text {
-      font-size: 0.875rem;
-      color: var(--fg-secondary);
-    }
-
-    /* Objection Handler */
-    .objection-note {
-      display: flex;
-      align-items: flex-start;
-      gap: 0.625rem;
-      padding: 0.75rem;
-      background: rgba(196, 160, 90, 0.08);
-      border-left: 2px solid var(--warning);
-      margin-top: 1rem;
+    .success-desc {
       font-size: 0.8125rem;
-      color: var(--fg-secondary);
-      line-height: 1.5;
-    }
-
-    /* Reduced Motion */
-    @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after {
-        animation-duration: 0.01ms !important;
-        animation-iteration-count: 1 !important;
-        transition-duration: 0.01ms !important;
-      }
-    }
-
-    /* Mobile */
-    @media (max-width: 480px) {
-      .chat-container {
-        max-width: 100%;
-      }
-
-      .message {
-        max-width: 92%;
-      }
-
-      .option-group {
-        gap: 0.375rem;
-      }
-
-      .option-btn {
-        padding: 0.625rem 0.875rem;
-        font-size: 0.8125rem;
-      }
+      color: var(--fg-muted);
+      margin-top: 0.25rem;
     }
   </style>
 </head>
 <body>
-  <!-- Background -->
-  <div class="bg-subtle"></div>
-  <div class="grain-overlay"></div>
-
-  <!-- Chat Interface -->
-  <div class="chat-container">
+  <div class="app-container">
     <!-- Header -->
-    <header class="chat-header">
-      <div class="logo-container">
-        <div class="logo-emblem">
-          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#8a9cc4" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 21h18"/>
-            <path d="M5 21V7l7-4 7 4v14"/>
-            <path d="M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"/>
-            <path d="M10 9h4"/>
+    <header class="header">
+      <div class="header-top">
+        <div class="logo-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-4a2 2 0 0 1 2-2h2a2 2 0 0 1 2 2v4"/>
           </svg>
         </div>
-        <div class="flex-1">
-          <h1 class="font-display text-lg font-semibold tracking-wide" style="color: var(--fg-primary);">Estudio Jurídico</h1>
-          <div class="flex items-center gap-3 mt-1">
-            <div class="status-badge">
-              <div class="status-dot"></div>
-              <span>Disponible</span>
-            </div>
-            <span class="text-xs" style="color: var(--fg-muted);">Asesoría Legal Profesional</span>
+        <div>
+          <div class="header-title font-serif">Estudio Jurídico</div>
+          <div class="header-sub">
+            <span class="status-dot"></span>
+            <span>Abogados disponibles</span>
           </div>
         </div>
       </div>
-      <div class="progress-tracker" id="progressTracker">
-        <div class="progress-step" data-step="1"></div>
-        <div class="progress-step" data-step="2"></div>
-        <div class="progress-step" data-step="3"></div>
-        <div class="progress-step" data-step="4"></div>
-        <div class="progress-step" data-step="5"></div>
-        <div class="progress-step" data-step="6"></div>
+      <div class="progress-track">
+        <div class="progress-bar" id="progressBar"></div>
       </div>
     </header>
 
     <!-- Messages -->
-    <div class="messages-area" id="messagesArea"></div>
+    <div class="messages-container" id="messagesContainer"></div>
 
-    <!-- Input Area -->
-    <div class="input-area" id="inputArea">
-      <div class="input-wrapper">
-        <textarea 
-          class="input-field" 
-          id="userInput" 
-          placeholder="Escriba su mensaje..." 
-          rows="1"
-          aria-label="Mensaje del usuario"
-        ></textarea>
-        <button class="send-btn" id="sendBtn" aria-label="Enviar mensaje">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+    <!-- Input -->
+    <div class="input-area">
+      <div class="input-row">
+        <div class="input-box">
+          <textarea 
+            class="input-field" 
+            id="inputField" 
+            placeholder="Escriba su mensaje..." 
+            rows="1"
+          ></textarea>
+        </div>
+        <button class="send-btn" id="sendBtn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <line x1="22" y1="2" x2="11" y2="13"></line>
             <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
           </svg>
@@ -677,357 +518,274 @@
   </div>
 
   <script>
-    // Conversation States
+    // State machine
     const State = {
-      OPENING: 'opening',
-      CASE_TYPE: 'case_type',
-      CASE_DETAILS: 'case_details',
-      STRATEGIC_RESPONSE: 'strategic_response',
+      GREETING: 'greeting',
+      AREA_SELECT: 'area',
+      CASE_DESC: 'case_desc',
+      RESPONSE: 'response',
       URGENCY: 'urgency',
-      TRANSITION: 'transition',
-      DATA_CAPTURE: 'data_capture',
-      CONFIRMATION: 'confirmation',
+      FORM: 'form',
+      SUCCESS: 'success',
       COMPLETE: 'complete'
     };
 
-    // Conversation Flow with Senior Legal Advisor Persona
-    const flowData = {
-      [State.OPENING]: {
-        message: `<div class="message-label">Asesor Legal Virtual</div>Bienvenido. Ha contactado con nuestro estudio jurídico. Estoy aquí para orientarlo de manera confidencial y precisa. ¿En qué área legal requiere asistencia?`,
-        options: [
-          { text: 'Derecho Laboral', value: 'laboral' },
-          { text: 'Derecho de Familia', value: 'familia' },
-          { text: 'Derecho Civil', value: 'civil' },
-          { text: 'Derecho Penal', value: 'penal' },
-          { text: 'Otra consulta legal', value: 'otra' }
+    // Flow content
+    const flow = {
+      [State.GREETING]: {
+        msg: `<div class="msg-label">Asesor Legal Virtual</div>Bienvenido. Ha contactado con nuestro estudio jurídico. Estoy aquí para orientarlo de manera confidencial y precisa. ¿En qué área legal requiere asistencia?`,
+        opts: [
+          { t: 'Derecho Laboral', v: 'laboral' },
+          { t: 'Derecho de Familia', v: 'familia' },
+          { t: 'Derecho Civil', v: 'civil' },
+          { t: 'Derecho Penal', v: 'penal' },
+          { t: 'Otra consulta', v: 'otra' }
         ]
       },
-      [State.CASE_TYPE]: {
-        message: `<div class="message-label">Registro de caso</div>Para brindarle una mejor orientación, ¿podría describirme brevemente su situación actual? Esto me permitirá evaluar cómo podemos ayudarlo de manera más efectiva.`,
-        options: null,
+      [State.AREA_SELECT]: {
+        msg: `<div class="msg-label">Registro de caso</div>Para brindarle una mejor orientación, ¿podría describirme brevemente su situación actual?`,
         placeholder: 'Describa su situación...'
       },
-      [State.STRATEGIC_RESPONSE]: {
-        message: `<div class="message-label">Evaluación preliminar</div>Comprendo la situación que describe. Este tipo de casos requiere una evaluación detallada para proteger adecuadamente sus derechos. Nuestro equipo cuenta con experiencia en procesos similares, lo que nos permite plantear estrategias efectivas desde el inicio.`,
-        options: null
+      [State.RESPONSE]: {
+        msg: `<div class="msg-label">Evaluación preliminar</div>Comprendo la situación que describe. Este tipo de casos requiere una evaluación detallada para proteger adecuadamente sus derechos. Nuestro equipo cuenta con experiencia en procesos similares, lo que nos permite plantear estrategias efectivas desde el inicio.`
       },
       [State.URGENCY]: {
-        message: `<div class="message-label">Consideración importante</div>En escenarios como este, el tiempo es un factor clave. Actuar con anticipación puede marcar una diferencia significativa en el resultado. La información que proporcione será tratada con absoluta confidencialidad.`,
-        options: [
-          { text: 'Deseo agendar una asesoría', value: 'agendar', priority: true },
-          { text: 'Necesito más información primero', value: 'info' }
+        msg: `<div class="msg-label">Consideración importante</div>En escenarios como este, el tiempo es un factor clave. Actuar con anticipación puede marcar una diferencia significativa en el resultado.`,
+        opts: [
+          { t: 'Deseo agendar una asesoría', v: 'agendar', priority: true },
+          { t: 'Necesito más información', v: 'info' }
         ]
       },
-      [State.TRANSITION]: {
-        message: `<div class="message-label">Próximo paso</div>Lo más recomendable es agendar una asesoría personalizada, donde un abogado podrá analizar su caso en detalle y plantearle las mejores alternativas. Esto le permitirá tener claridad antes de tomar cualquier decisión.`,
-        options: [
-          { text: 'Agendar asesoría personalizada', value: 'agendar', priority: true },
-          { text: 'Prefiero que me contacten después', value: 'despues' }
-        ]
-      },
-      [State.DATA_CAPTURE]: {
-        message: `<div class="message-label">Registro de cita</div>Para coordinar su asesoría, necesitaré registrar los siguientes datos:`,
+      [State.FORM]: {
+        msg: `<div class="msg-label">Registro de cita</div>Para coordinar su asesoría, necesitaré registrar los siguientes datos:`,
         showForm: true
       },
-      [State.CONFIRMATION]: {
-        message: null,
-        showSuccess: true
-      },
       [State.COMPLETE]: {
-        message: `<div class="message-label">Confirmación</div>Gracias por la información. En breve, uno de nuestros abogados se pondrá en contacto para confirmar su cita y brindarle la atención correspondiente. Quedamos a su disposición.`
+        msg: `<div class="msg-label">Confirmación</div>Gracias por la información. En breve, uno de nuestros abogados se pondrá en contacto para confirmar su cita. Quedamos a su disposición.`
       }
     };
 
-    // Objection responses
-    const objectionResponses = {
-      info: `Lo entiendo. Sin embargo, para poder brindarle una orientación precisa y responsable, es necesario evaluar su caso en detalle. La asesoría le permitirá tener claridad antes de tomar cualquier decisión. ¿Desea que procedamos a agendar?`,
-      despues: `Comprendido. Cuando considere oportuno, puede contactarnos nuevamente. Tenga en cuenta que en asuntos legales, la oportunidad de actuación puede ser determinante. ¿Hay algo más en lo que pueda orientarlo ahora?`,
-      dudas: `Es comprensible tener dudas. Nuestra primera consulta está diseñada para resolver exactamente eso: clarificar su situación y las opciones disponibles. No hay compromiso hasta que usted decida continuar. ¿Le gustaría agendar?`
+    const objections = {
+      info: `Lo entiendo. Para poder brindarle una orientación precisa y responsable, es necesario evaluar su caso en detalle. La asesoría le permitirá tener claridad antes de tomar cualquier decisión.`,
+      despues: `Comprendido. Cuando considere oportuno, puede contactarnos nuevamente. Tenga en cuenta que en asuntos legales, la oportunidad de actuación puede ser determinante.`
     };
 
-    // High intent keywords detection
-    const highIntentKeywords = ['urgente', 'necesito', 'importante', 'rápido', 'ahora', 'cuanto antes', 'inmediato', 'prisa'];
+    // State
+    let state = State.GREETING;
+    let progress = 0;
+    let data = { area: '', desc: '', name: '', phone: '', avail: '' };
 
-    // State management
-    let currentState = State.OPENING;
-    let collectedData = {
-      caseArea: '',
-      caseDescription: '',
-      fullName: '',
-      phone: '',
-      availability: '',
-      highIntent: false
-    };
-    let currentStep = 0;
-
-    // DOM Elements
-    let messagesArea = null;
-    let userInput = null;
+    // DOM
+    let container = null;
+    let inputField = null;
     let sendBtn = null;
-    let progressSteps = null;
+    let progressBar = null;
 
-    // Initialize
+    // Init
     function init() {
-      messagesArea = document.getElementById('messagesArea');
-      userInput = document.getElementById('userInput');
+      container = document.getElementById('messagesContainer');
+      inputField = document.getElementById('inputField');
       sendBtn = document.getElementById('sendBtn');
-      progressSteps = document.querySelectorAll('.progress-step');
+      progressBar = document.getElementById('progressBar');
 
-      if (!messagesArea || !userInput || !sendBtn) {
-        console.error('Required elements not found');
-        return;
-      }
+      if (!container || !inputField || !sendBtn) return;
 
-      // Event listeners
       sendBtn.addEventListener('click', handleSend);
-      userInput.addEventListener('keydown', (e) => {
+      
+      inputField.addEventListener('keydown', (e) => {
         if (e.key === 'Enter' && !e.shiftKey) {
           e.preventDefault();
           handleSend();
         }
       });
-      userInput.addEventListener('input', autoResize);
 
-      // Start conversation
-      setTimeout(() => {
-        addBotMessage(flowData[currentState].message, flowData[currentState].options, flowData[currentState].showForm);
-        updateProgress(1);
-      }, 600);
-    }
-
-    // Auto-resize textarea
-    function autoResize() {
-      userInput.style.height = 'auto';
-      userInput.style.height = Math.min(userInput.scrollHeight, 100) + 'px';
-    }
-
-    // Update progress tracker
-    function updateProgress(step) {
-      currentStep = step;
-      progressSteps.forEach((el, i) => {
-        el.classList.remove('active', 'completed');
-        if (i < step) {
-          el.classList.add('completed');
-        } else if (i === step) {
-          el.classList.add('active');
-        }
+      inputField.addEventListener('input', () => {
+        inputField.style.height = 'auto';
+        inputField.style.height = Math.min(inputField.scrollHeight, 80) + 'px';
       });
+
+      // Start
+      setTimeout(() => showBotMsg(flow[State.GREETING]), 400);
     }
 
-    // Scroll to bottom
-    function scrollToBottom() {
-      messagesArea.scrollTo({
-        top: messagesArea.scrollHeight,
-        behavior: 'smooth'
-      });
+    // Update progress
+    function setProgress(val) {
+      progress = Math.min(val, 6);
+      progressBar.style.width = (progress / 6 * 100) + '%';
     }
 
-    // Create typing indicator
+    // Scroll
+    function scrollDown() {
+      container.scrollTop = container.scrollHeight;
+    }
+
+    // Create elements
     function createTyping() {
-      const div = document.createElement('div');
-      div.className = 'message message-bot';
-      div.id = 'typingIndicator';
-      div.innerHTML = `
-        <div class="typing-block">
-          <div class="typing-text">
-            <span>Redactando respuesta</span>
-            <div class="typing-cursor"></div>
+      const el = document.createElement('div');
+      el.className = 'message msg-bot';
+      el.id = 'typing';
+      el.innerHTML = `
+        <div class="typing-indicator">
+          <div class="typing-dots">
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
+            <span class="typing-dot"></span>
           </div>
+          <span class="typing-text">Redactando</span>
         </div>
       `;
-      return div;
+      return el;
     }
 
-    // Create message bubble
-    function createBubble(content, isBot = true) {
-      const div = document.createElement('div');
-      div.className = `message ${isBot ? 'message-bot' : 'message-user'}`;
-      div.innerHTML = `<div class="${isBot ? 'bubble-bot' : 'bubble-user'}">${content}</div>`;
-      return div;
+    function createMsg(text, isBot = true) {
+      const el = document.createElement('div');
+      el.className = `message ${isBot ? 'msg-bot' : 'msg-user'}`;
+      el.innerHTML = `<div class="${isBot ? 'bubble-bot' : 'bubble-user'}">${text}</div>`;
+      return el;
     }
 
-    // Create option buttons
-    function createOptions(options) {
-      const div = document.createElement('div');
-      div.className = 'option-group';
-      div.id = 'optionGroup';
-      
-      options.forEach(opt => {
+    function createOpts(opts) {
+      const el = document.createElement('div');
+      el.className = 'options-wrap';
+      el.id = 'opts';
+      opts.forEach(o => {
         const btn = document.createElement('button');
-        btn.className = `option-btn ${opt.priority ? 'option-priority' : ''}`;
-        btn.innerHTML = `<span class="option-icon"></span>${opt.text}`;
-        btn.addEventListener('click', () => handleOption(opt));
-        div.appendChild(btn);
+        btn.className = `opt-btn ${o.priority ? 'priority' : ''}`;
+        btn.innerHTML = `<span class="opt-dot"></span>${o.t}`;
+        btn.onclick = () => selectOpt(o);
+        el.appendChild(btn);
       });
-      
-      return div;
+      return el;
     }
 
-    // Create data form
     function createForm() {
-      const div = document.createElement('div');
-      div.className = 'data-form';
-      div.id = 'dataForm';
-      div.innerHTML = `
-        <div class="form-header">
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="var(--accent-primary)" stroke-width="2">
-            <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
-            <circle cx="8.5" cy="7" r="4"/>
-            <path d="M20 8v6"/>
-            <path d="M23 11h-6"/>
-          </svg>
-          <span class="form-title">Datos de contacto</span>
-        </div>
-        <div class="form-row">
+      const el = document.createElement('div');
+      el.className = 'form-card';
+      el.id = 'formCard';
+      el.innerHTML = `
+        <div class="form-head">Datos de contacto</div>
+        <div class="form-field">
           <label class="form-label">Nombre completo</label>
-          <input type="text" class="form-input" id="formName" placeholder="Ingrese su nombre completo" required>
+          <input type="text" class="form-input" id="fName" placeholder="Su nombre">
         </div>
-        <div class="form-row">
-          <label class="form-label">Número de contacto (WhatsApp)</label>
-          <input type="tel" class="form-input" id="formPhone" placeholder="Ejemplo: +52 123 456 7890" required>
+        <div class="form-field">
+          <label class="form-label">WhatsApp</label>
+          <input type="tel" class="form-input" id="fPhone" placeholder="Número de contacto">
         </div>
-        <div class="form-row">
-          <label class="form-label">Disponibilidad para cita</label>
-          <input type="text" class="form-input" id="formAvailability" placeholder="Día y hora de preferencia" required>
+        <div class="form-field">
+          <label class="form-label">Disponibilidad</label>
+          <input type="text" class="form-input" id="fAvail" placeholder="Día y hora">
         </div>
-        <button class="submit-btn" id="submitForm">Confirmar registro</button>
+        <button class="form-submit" id="fSubmit">Confirmar cita</button>
       `;
-      return div;
+      return el;
     }
 
-    // Create success block
     function createSuccess() {
-      const div = document.createElement('div');
-      div.className = 'success-block';
-      div.innerHTML = `
+      const el = document.createElement('div');
+      el.className = 'success-wrap';
+      el.innerHTML = `
         <div class="success-icon">
-          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
             <polyline points="20 6 9 17 4 12"></polyline>
           </svg>
         </div>
         <div class="success-title">Registro completado</div>
-        <div class="success-text">Su solicitud ha sido procesada correctamente.</div>
+        <div class="success-desc">Su solicitud ha sido procesada</div>
       `;
-      return div;
+      return el;
     }
 
-    // Add bot message with typing effect
-    function addBotMessage(content, options = null, showForm = false, showSuccess = false) {
-      // Remove existing options
-      const existingOptions = document.getElementById('optionGroup');
-      if (existingOptions) existingOptions.remove();
+    // Show bot message
+    function showBotMsg(content, isFinal = false) {
+      // Remove old opts
+      const oldOpts = document.getElementById('opts');
+      if (oldOpts) oldOpts.remove();
 
-      // Show typing
+      // Typing
       const typing = createTyping();
-      messagesArea.appendChild(typing);
-      scrollToBottom();
+      container.appendChild(typing);
+      scrollDown();
 
-      // Replace with message
       setTimeout(() => {
         typing.remove();
 
-        if (showSuccess) {
-          const successEl = createSuccess();
-          messagesArea.appendChild(successEl);
-          scrollToBottom();
-          
-          setTimeout(() => {
-            currentState = State.COMPLETE;
-            addBotMessage(flowData[State.COMPLETE].message);
-          }, 1500);
+        if (content.showSuccess) {
+          container.appendChild(createSuccess());
+          scrollDown();
+          setTimeout(() => showBotMsg(flow[State.COMPLETE]), 1200);
           return;
         }
 
-        const msgEl = createBubble(content);
-        messagesArea.appendChild(msgEl);
+        const msg = createMsg(content.msg);
+        container.appendChild(msg);
 
-        if (options) {
-          const optEl = createOptions(options);
-          msgEl.querySelector('.bubble-bot').appendChild(optEl);
+        if (content.opts) {
+          msg.querySelector('.bubble-bot').appendChild(createOpts(content.opts));
         }
 
-        if (showForm) {
-          const formEl = createForm();
-          msgEl.querySelector('.bubble-bot').appendChild(formEl);
-          document.getElementById('submitForm').addEventListener('click', handleFormSubmit);
+        if (content.showForm) {
+          msg.querySelector('.bubble-bot').appendChild(createForm());
+          document.getElementById('fSubmit').onclick = submitForm;
         }
 
-        scrollToBottom();
-      }, 1000 + Math.random() * 500);
+        scrollDown();
+        setProgress(progress + 1);
+      }, 800);
     }
 
-    // Add user message
-    function addUserMessage(content) {
-      const msgEl = createBubble(content, false);
-      messagesArea.appendChild(msgEl);
-      scrollToBottom();
+    // Show user message
+    function showUserMsg(text) {
+      const msg = createMsg(text, false);
+      container.appendChild(msg);
+      scrollDown();
     }
 
-    // Detect high intent
-    function detectHighIntent(text) {
-      return highIntentKeywords.some(keyword => text.toLowerCase().includes(keyword));
-    }
-
-    // Handle option selection
-    function handleOption(option) {
-      addUserMessage(option.text);
-      
-      // Remove options
-      const optGroup = document.getElementById('optionGroup');
-      if (optGroup) optGroup.remove();
+    // Select option
+    function selectOpt(opt) {
+      showUserMsg(opt.t);
+      const oldOpts = document.getElementById('opts');
+      if (oldOpts) oldOpts.remove();
 
       // Handle objections
-      if (objectionResponses[option.value]) {
-        addBotMessage(objectionResponses[option.value], [
-          { text: 'De acuerdo, procedamos', value: 'agendar', priority: true },
-          { text: 'Lo pensaré', value: 'despues' }
-        ]);
+      if (objections[opt.v]) {
+        showBotMsg({
+          msg: objections[opt.v],
+          opts: [
+            { t: 'De acuerdo, procedamos', v: 'agendar', priority: true },
+            { t: 'Lo pensaré', v: 'despues' }
+          ]
+        });
         return;
       }
 
-      // Process state transition
-      processState(option.value);
+      transition(opt.v);
     }
 
-    // Process state transitions
-    function processState(input) {
-      switch (currentState) {
-        case State.OPENING:
-          collectedData.caseArea = input;
-          currentState = State.CASE_TYPE;
-          updateProgress(2);
-          if (flowData[currentState].placeholder) {
-            userInput.placeholder = flowData[currentState].placeholder;
-          }
-          addBotMessage(flowData[currentState].message, flowData[currentState].options, flowData[currentState].showForm);
+    // State transitions
+    function transition(input) {
+      switch (state) {
+        case State.GREETING:
+          data.area = input;
+          state = State.AREA_SELECT;
+          inputField.placeholder = flow[State.AREA_SELECT].placeholder || 'Escriba su mensaje...';
+          showBotMsg(flow[State.AREA_SELECT]);
           break;
 
-        case State.CASE_TYPE:
-          collectedData.caseDescription = input;
-          collectedData.highIntent = detectHighIntent(input);
-          currentState = State.STRATEGIC_RESPONSE;
-          updateProgress(3);
-          addBotMessage(flowData[currentState].message, flowData[currentState].options, flowData[currentState].showForm);
+        case State.AREA_SELECT:
+          data.desc = input;
+          state = State.RESPONSE;
+          showBotMsg(flow[State.RESPONSE]);
           setTimeout(() => {
-            currentState = State.URGENCY;
-            updateProgress(4);
-            addBotMessage(flowData[currentState].message, flowData[currentState].options, flowData[currentState].showForm);
-          }, 1800);
+            state = State.URGENCY;
+            showBotMsg(flow[State.URGENCY]);
+          }, 1600);
           break;
 
         case State.URGENCY:
           if (input === 'agendar') {
-            currentState = State.DATA_CAPTURE;
-            updateProgress(5);
-            addBotMessage(flowData[currentState].message, flowData[currentState].options, flowData[currentState].showForm);
-          }
-          break;
-
-        case State.TRANSITION:
-          if (input === 'agendar') {
-            currentState = State.DATA_CAPTURE;
-            updateProgress(5);
-            addBotMessage(flowData[currentState].message, flowData[currentState].options, flowData[currentState].showForm);
+            state = State.FORM;
+            showBotMsg(flow[State.FORM]);
           }
           break;
 
@@ -1036,56 +794,41 @@
       }
     }
 
-    // Handle form submission
-    function handleFormSubmit() {
-      const name = document.getElementById('formName').value.trim();
-      const phone = document.getElementById('formPhone').value.trim();
-      const availability = document.getElementById('formAvailability').value.trim();
+    // Submit form
+    function submitForm() {
+      const name = document.getElementById('fName').value.trim();
+      const phone = document.getElementById('fPhone').value.trim();
+      const avail = document.getElementById('fAvail').value.trim();
 
-      if (!name || !phone || !availability) {
-        return;
-      }
+      if (!name || !phone || !avail) return;
 
-      collectedData.fullName = name;
-      collectedData.phone = phone;
-      collectedData.availability = availability;
+      data.name = name;
+      data.phone = phone;
+      data.avail = avail;
 
-      // Remove form
-      const form = document.getElementById('dataForm');
-      if (form) form.remove();
+      const formCard = document.getElementById('formCard');
+      if (formCard) formCard.remove();
 
-      // Show user's data
-      addUserMessage(`${name}<br>${phone}<br>${availability}`);
+      showUserMsg(`${name}<br>${phone}<br>${avail}`);
+      setProgress(6);
 
-      updateProgress(6);
-
-      // High intent closure
-      if (collectedData.highIntent) {
-        addBotMessage(`<div class="message-label">Prioridad detectada</div>Hemos identificado que su caso requiere atención preferente. Se le asignará un espacio prioritario en agenda.`, null, false, false);
-        
-        setTimeout(() => {
-          currentState = State.CONFIRMATION;
-          addBotMessage(null, null, false, true);
-        }, 1500);
-      } else {
-        currentState = State.CONFIRMATION;
-        addBotMessage(null, null, false, true);
-      }
+      state = State.SUCCESS;
+      showBotMsg({ showSuccess: true });
     }
 
-    // Handle send button
+    // Handle send
     function handleSend() {
-      const text = userInput.value.trim();
+      const text = inputField.value.trim();
       if (!text) return;
 
-      addUserMessage(text);
-      userInput.value = '';
-      userInput.style.height = 'auto';
+      showUserMsg(text);
+      inputField.value = '';
+      inputField.style.height = 'auto';
 
-      processState(text);
+      transition(text);
     }
 
-    // Initialize when DOM ready
+    // Start
     if (document.readyState === 'loading') {
       document.addEventListener('DOMContentLoaded', init);
     } else {
